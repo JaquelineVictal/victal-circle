@@ -10,6 +10,7 @@ import {
   Delete,
   HttpCode,
   NotFoundException,
+  ConflictException,
 } from '@nestjs/common';
 import { UserService } from 'src/domain/service/user.service';
 import { UserDto } from '../dto/user.dto';
@@ -24,10 +25,10 @@ export class UserController {
     try {
       return await this._userService.created(userDto);
     } catch (error) {
-      throw new HttpException(
-        'Something went wrong, call Batman',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      if (error instanceof ConflictException) {
+        this._throwBadRequestError(error);
+      }
+      this._throwInternalServerError();
     }
   }
 
@@ -36,10 +37,7 @@ export class UserController {
     try {
       return await this._userService.findById(id);
     } catch (error) {
-      throw new HttpException(
-        'Something went wrong, call Batman',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      this._throwInternalServerError();
     }
   }
 
@@ -48,10 +46,7 @@ export class UserController {
     try {
       return await this._userService.findAll();
     } catch (error) {
-      throw new HttpException(
-        'Something went wrong, call Batman',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      this._throwInternalServerError();
     }
   }
 
@@ -64,10 +59,10 @@ export class UserController {
       userDto.id = id;
       return await this._userService.updateById(userDto);
     } catch (error) {
-      throw new HttpException(
-        'Something went wrong, call Batman',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      if (error instanceof NotFoundException) {
+        this._throwNotFoundError(error);
+      }
+      this._throwInternalServerError();
     }
   }
 
@@ -75,17 +70,30 @@ export class UserController {
   @HttpCode(202)
   async deleteById(@Param('id') id: number): Promise<string> {
     try {
-      const deletedUser = await this._userService.deleteById(id);
+      await this._userService.deleteById(id);
 
-      if (!deletedUser) {
-        throw new NotFoundException('User not found');
-      }
       return 'User deleted successfully';
     } catch (error) {
-      throw new HttpException(
-        'Something went wrong, call Batman',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      if (error instanceof NotFoundException) {
+        this._throwNotFoundError(error);
+      }
+
+      this._throwInternalServerError();
     }
+  }
+
+  private _throwInternalServerError(): void {
+    throw new HttpException(
+      'Something went wrong, call Batman',
+      HttpStatus.INTERNAL_SERVER_ERROR,
+    );
+  }
+
+  private _throwNotFoundError(error): void {
+    throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+  }
+
+  private _throwBadRequestError(error): void {
+    throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
   }
 }

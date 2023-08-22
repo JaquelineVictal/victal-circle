@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UserDto } from 'src/application/dto/user.dto';
 import { UserRepository } from 'src/infrastructure/repository/user.repository';
 import { UserEntity } from '../entity/user.entity';
@@ -9,6 +13,14 @@ export class UserService {
 
   async created(createUserDto: UserDto): Promise<UserEntity> {
     try {
+      const existingUser = await this.repository.findByEmail(
+        createUserDto.email,
+      );
+
+      if (existingUser) {
+        throw new ConflictException('Email already exists');
+      }
+
       return await this.repository.created(createUserDto);
     } catch (error) {
       throw error;
@@ -33,7 +45,13 @@ export class UserService {
 
   async updateById(userDto: UserDto): Promise<UserEntity> {
     try {
-      return await this.repository.updateById(userDto);
+      const updatedUser = await this.repository.updateById(userDto);
+
+      if (!updatedUser) {
+        throw new NotFoundException('User not found');
+      }
+
+      return updatedUser;
     } catch (error) {
       throw error;
     }
@@ -41,7 +59,13 @@ export class UserService {
 
   async deleteById(userId: number): Promise<UserEntity> {
     try {
-      return await this.repository.deleteById(userId);
+      const deletedUser = await this.repository.deleteById(userId);
+
+      if (!deletedUser) {
+        throw new NotFoundException('User not found');
+      }
+
+      return deletedUser;
     } catch (error) {
       throw error;
     }

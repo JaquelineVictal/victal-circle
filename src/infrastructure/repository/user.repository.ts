@@ -11,6 +11,7 @@ export class UserRepository implements IRepository {
 
   async created(userDto: UserDto): Promise<UserEntity> {
     const userModel = new UserModel(userDto);
+
     const newUser = await this.database.user.create({
       data: userModel.saveUserModel(),
     });
@@ -22,6 +23,17 @@ export class UserRepository implements IRepository {
   async findById(id: number): Promise<UserEntity | null> {
     const user = await this.database.user.findUnique({
       where: { id },
+    });
+
+    if (!user) return null;
+
+    const userEntity = new UserEntity(user);
+    return userEntity;
+  }
+
+  async findByEmail(email: string): Promise<UserEntity | null> {
+    const user = await this.database.user.findUnique({
+      where: { email },
     });
 
     if (!user) return null;
