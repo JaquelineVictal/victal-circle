@@ -51,9 +51,11 @@ export class UserRepository implements IRepository {
     return userEntity;
   }
 
-  async deleteById(id: number): Promise<void> {
-    this.database.user.delete({
+  async deleteById(id: number): Promise<UserEntity> {
+    const user = await this.database.user.delete({
       where: { id },
     });
+    const userEntity = new UserEntity(user);
+    return userEntity;
   }
 }

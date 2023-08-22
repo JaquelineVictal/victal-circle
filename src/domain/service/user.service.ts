@@ -39,7 +39,7 @@ export class UserService {
     }
   }
 
-  async deleteById(userId: number): Promise<void> {
+  async deleteById(userId: number): Promise<UserEntity> {
     try {
       return await this.repository.deleteById(userId);
     } catch (error) {
