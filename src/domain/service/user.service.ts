@@ -8,22 +8,42 @@ export class UserService {
   constructor(private readonly repository: UserRepository) {}
 
   async created(createUserDto: UserDto): Promise<UserEntity> {
-    return await this.repository.created(createUserDto);
+    try {
+      return await this.repository.created(createUserDto);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async findById(userId: number): Promise<UserEntity> {
-    return await this.repository.findById(userId);
+    try {
+      return await this.repository.findById(userId);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async findAll(): Promise<UserEntity[]> {
-    return await this.repository.findAll();
+    try {
+      return await this.repository.findAll();
+    } catch (error) {
+      throw error;
+    }
   }
 
   async updateById(userDto: UserDto): Promise<UserEntity> {
-    return await this.repository.updateById(userDto);
+    try {
+      return await this.repository.updateById(userDto);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async deleteById(userId: number): Promise<void> {
-    return await this.repository.deleteById(userId);
+    try {
+      return await this.repository.deleteById(userId);
+    } catch (error) {
+      throw error;
+    }
   }
 }
