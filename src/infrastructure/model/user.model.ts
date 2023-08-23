@@ -11,7 +11,7 @@ export class UserModel {
     const saveUserModel: Prisma.UserCreateInput = {
       name: this._userDto.name,
       email: this._userDto.email,
-      birth: this._userDto.birth,
+      birth: new Date(this._userDto.birth),
       biography: this._userDto.biography,
       password: this._userDto.password,
     };
@@ -25,7 +25,7 @@ export class UserModel {
     const updateUserModel: Prisma.UserUpdateInput = {
       name: this._userDto.name,
       email: this._userDto.email,
-      birth: this._userDto.birth,
+      birth: new Date(this._userDto.birth),
       biography: this._userDto.biography,
       password: this._userDto.password,
     };

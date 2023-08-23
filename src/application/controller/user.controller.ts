@@ -20,7 +20,7 @@ import { UserEntity } from 'src/domain/entity/user.entity';
 export class UserController {
   constructor(private readonly _userService: UserService) {}
 
-  @Post('/users')
+  @Post()
   async created(@Body() userDto: UserDto): Promise<UserEntity> {
     try {
       return await this._userService.created(userDto);
@@ -28,7 +28,7 @@ export class UserController {
       if (error instanceof ConflictException) {
         this._throwBadRequestError(error);
       }
-      this._throwInternalServerError();
+      this._throwInternalServerError(error);
     }
   }
 
@@ -37,7 +37,7 @@ export class UserController {
     try {
       return await this._userService.findById(id);
     } catch (error) {
-      this._throwInternalServerError();
+      this._throwInternalServerError(error);
     }
   }
 
@@ -46,7 +46,7 @@ export class UserController {
     try {
       return await this._userService.findAll();
     } catch (error) {
-      this._throwInternalServerError();
+      this._throwInternalServerError(error);
     }
   }
 
@@ -56,21 +56,22 @@ export class UserController {
     @Body() userDto: UserDto,
   ): Promise<UserEntity> {
     try {
-      userDto.id = id;
+      userDto.id = Number(id);
+
       return await this._userService.updateById(userDto);
     } catch (error) {
       if (error instanceof NotFoundException) {
         this._throwNotFoundError(error);
       }
-      this._throwInternalServerError();
+      this._throwInternalServerError(error);
     }
   }
 
-  @Delete('id')
+  @Delete(':id')
   @HttpCode(202)
   async deleteById(@Param('id') id: number): Promise<string> {
     try {
-      await this._userService.deleteById(id);
+      await this._userService.deleteById(Number(id));
 
       return 'User deleted successfully';
     } catch (error) {
@@ -82,9 +83,9 @@ export class UserController {
     }
   }
 
-  private _throwInternalServerError(): void {
+  private _throwInternalServerError(error?): void {
     throw new HttpException(
-      'Something went wrong, call Batman',
+      error?.message ?? 'Something went wrong, call Batman',
       HttpStatus.INTERNAL_SERVER_ERROR,
     );
   }

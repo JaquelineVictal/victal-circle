@@ -16,7 +16,6 @@ export class UserService {
       const existingUser = await this.repository.findByEmail(
         createUserDto.email,
       );
-
       if (existingUser) {
         throw new ConflictException('Email already exists');
       }
@@ -45,13 +44,13 @@ export class UserService {
 
   async updateById(userDto: UserDto): Promise<UserEntity> {
     try {
-      const updatedUser = await this.repository.updateById(userDto);
+      const findUser = await this.repository.findById(userDto.id);
 
-      if (!updatedUser) {
+      if (!findUser) {
         throw new NotFoundException('User not found');
       }
 
-      return updatedUser;
+      return await this.repository.updateById(userDto);
     } catch (error) {
       throw error;
     }
@@ -59,13 +58,13 @@ export class UserService {
 
   async deleteById(userId: number): Promise<UserEntity> {
     try {
-      const deletedUser = await this.repository.deleteById(userId);
+      const findUser = await this.repository.findById(userId);
 
-      if (!deletedUser) {
+      if (!findUser) {
         throw new NotFoundException('User not found');
       }
 
-      return deletedUser;
+      return await this.repository.deleteById(userId);
     } catch (error) {
       throw error;
     }
