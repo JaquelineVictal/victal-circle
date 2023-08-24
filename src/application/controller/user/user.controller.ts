@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from 'src/domain/service/user.service';
 import { UserDto } from '../../dto/user/user.dto';
-import { UserEntity } from 'src/domain/entity/user.entity';
+import { UserEntity } from 'src/domain/entity/user/user.entity';
 import {
   ApiBadRequestResponse,
   ApiNotFoundResponse,
