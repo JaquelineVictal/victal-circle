@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
-import { UserService } from 'src/domain/service/user.service';
 import { UserDto } from '../../dto/user/user.dto';
 import { UserEntity } from 'src/domain/entity/user/user.entity';
 import {
@@ -9,6 +8,7 @@ import {
   HttpStatus,
   NotFoundException,
 } from '@nestjs/common';
+import { UserService } from 'src/domain/service/user/user.service';
 
 describe('UserController', () => {
   let userController: UserController;
