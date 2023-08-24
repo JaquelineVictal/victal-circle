@@ -133,7 +133,7 @@ export class UserController {
         this._throwNotFoundError(error);
       }
 
-      this._throwInternalServerError();
+      this._throwInternalServerError(error);
     }
   }
 

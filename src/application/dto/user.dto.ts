@@ -12,7 +12,7 @@ import {
 export class UserDto {
   @IsNumber()
   @IsOptional()
-  id: number;
+  id?: number;
 
   @ApiProperty({ type: String })
   @IsString()
