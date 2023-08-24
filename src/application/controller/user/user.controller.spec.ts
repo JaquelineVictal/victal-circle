@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
 import { UserService } from 'src/domain/service/user.service';
-import { UserDto } from '../../dto/user.dto';
+import { UserDto } from '../../dto/user/user.dto';
 import { UserEntity } from 'src/domain/entity/user.entity';
 import {
   ConflictException,

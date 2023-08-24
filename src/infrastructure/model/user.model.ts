@@ -1,4 +1,4 @@
-import { UserDto } from 'src/application/dto/user.dto';
+import { UserDto } from 'src/application/dto/user/user.dto';
 import { Prisma } from '@prisma/client';
 
 export class UserModel {
