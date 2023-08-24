@@ -1,7 +1,7 @@
 import { UserEntity } from './user.entity';
 import { User } from '@prisma/client';
 
-describe('UserController', () => {
+describe('UserEntity', () => {
   let userEntity: UserEntity;
 
   beforeEach(async () => {
