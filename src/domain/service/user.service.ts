@@ -28,7 +28,8 @@ export class UserService {
 
   async findById(userId: number): Promise<UserEntity> {
     try {
-      return await this.repository.findById(userId);
+      const findUser = await this._findUserById(userId);
+      return findUser;
     } catch (error) {
       throw error;
     }
@@ -44,12 +45,7 @@ export class UserService {
 
   async updateById(userDto: UserDto): Promise<UserEntity> {
     try {
-      const findUser = await this.repository.findById(userDto.id);
-
-      if (!findUser) {
-        throw new NotFoundException('User not found');
-      }
-
+      await this._findUserById(userDto.id);
       return await this.repository.updateById(userDto);
     } catch (error) {
       throw error;
@@ -58,15 +54,20 @@ export class UserService {
 
   async deleteById(userId: number): Promise<UserEntity> {
     try {
-      const findUser = await this.repository.findById(userId);
-
-      if (!findUser) {
-        throw new NotFoundException('User not found');
-      }
+      await this._findUserById(userId);
 
       return await this.repository.deleteById(userId);
     } catch (error) {
       throw error;
     }
+  }
+
+  private async _findUserById(userId: number): Promise<UserEntity> {
+    const findUser = await this.repository.findById(userId);
+
+    if (!findUser) {
+      throw new NotFoundException('User not found');
+    }
+    return findUser;
   }
 }
