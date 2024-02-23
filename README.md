@@ -9,19 +9,27 @@ Docker Compose
 
 # Configuração do Projeto
 
-Clone o repositório do projeto: git clone <URL_do_repositório>
-Navegue até o diretório do projeto: cd <nome_do_projeto>
+Clone o repositório do projeto: git clone git@github.com:JaquelineVictal/victal-circle.git
+
+Navegue até o diretório do projeto: cd _victal-circle_
+
 Crie o arquivo .env utilizando como base o arquivo .base_env:
+
+```javascript
 bash
 Copy code
 cp .base_env .env
+```
+
 Edite o arquivo .env conforme necessário para configurar as variáveis de ambiente da aplicação.
+
 Iniciando o Projeto
+
 Execute o seguinte comando para iniciar a aplicação:
 
-bash
-Copy code
+```javascript
 docker-compose up
+```
 
 Após a execução deste comando, a aplicação estará disponível em http://localhost:3000/api.
 
