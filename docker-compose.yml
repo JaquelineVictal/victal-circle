@@ -1,18 +1,27 @@
-version: '1.0.0'
+version: '1.0'
 
 services:
-  api:
-    build: .
+  db:
+    container_name: victal-circle-db
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
+    restart: always
     ports:
-      - '3010:3010'
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    container_name: victal-circle-api
+    build:
+      context: .
+      dockerfile: Dockerfile.nest
+    restart: always
+    ports:
+      - '3000:3000'
     depends_on:
       - db
 
-  db:
-    image: postgres:latest
-    ports:
-      - '5432:5432'
-    environment:
-      POSTGRES_USER: victal-circle_user
-      POSTGRES_PASSWORD: victal-circle_password
-      POSTGRES_DB: victal-circle
+volumes:
+  pgdata: {}

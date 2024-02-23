@@ -1,0 +1,7 @@
+# Use a imagem oficial do PostgreSQL
+FROM postgres:16.2
+
+# Define variáveis de ambiente para configurar o usuário, senha e banco de dados
+ENV POSTGRES_USER=victal-circle_user
+ENV POSTGRES_PASSWORD=victal-circle_password
+ENV POSTGRES_DB=victal-circle

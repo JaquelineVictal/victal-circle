@@ -1,0 +1,2 @@
+
+DATABASE_URL= "postgresql://victal-circle_user:victal-circle_password@db:5432/victal-circle?schema=public"
