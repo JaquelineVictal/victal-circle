@@ -24,3 +24,9 @@ Copy code
 docker-compose up
 
 Após a execução deste comando, a aplicação estará disponível em http://localhost:3000/api.
+
+# Docker Hub
+
+Imagem da Api: https://hub.docker.com/repository/docker/databasejva/victal-circle-api/general
+
+Imagem do Banco de dados: https://hub.docker.com/repository/docker/databasejva/victal-circle-db/general
